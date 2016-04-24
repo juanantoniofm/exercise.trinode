@@ -11,7 +11,7 @@ you will need to have done the following:
 4. Open a shell prompt (Terminal app on a Mac) and cd into the folder containing the `Vagrantfile`
 5. Run the following command to install the necessary Ansible roles for this profile:
 
-        $ ansible-galaxy install -r requirements.ansible.yml
+        $ ansible-galaxy install -r requirements.ansible.yml -p provisioning/front/roles
 
 ## Using virtualenv
 
