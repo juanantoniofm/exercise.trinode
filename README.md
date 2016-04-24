@@ -11,6 +11,14 @@ you will need to have done the following:
 4. Open a shell prompt (Terminal app on a Mac) and cd into the folder containing the `Vagrantfile`
 5. Run the following command to install the necessary Ansible roles for this profile:
 
-        $ ansible-galaxy install -r requirements.yml
+        $ ansible-galaxy install -r requirements.ansible.yml
 
+## Using virtualenv
 
+Alternatively you can use virtualenv:
+
+        virtualenv ENV
+        source ENV/bin/activate
+        pip install -r requirements.python.txt
+
+and you will have the same python versions and ansible environment used to develop this repo
