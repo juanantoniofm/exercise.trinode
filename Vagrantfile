@@ -60,17 +60,29 @@ Vagrant.configure(2) do |config|
     end
   end
 
-  config.vm.define :back1 do |back1|
-    back1.vm.hostname = "back1"
-    back1.vm.network "forwarded_port", guest: 8484, host: 8081
-    back1.vm.network "forwarded_port", guest: 22, host: 2202
-    back1.vm.network "private_network", ip: "192.168.33.11"
-    back1.vm.provision "ansible" do |ansible| 
-      ansible.playbook = "provisioning/back/playbook.yml"
-      ansible.inventory_path == "provisioning/hosts"
-      ansible.sudo = true
+    N = 2
+    (1..N).each do |machine_id|
+      config.vm.define "back#{machine_id}" do |machine|
+        machine.vm.hostname = "back#{machine_id}"
+        machine.vm.network "forwarded_port", guest: 22, host: 2201+machine_id
+        machine.vm.network "forwarded_port", guest: 8484, host: 8080+machine_id
+        machine.vm.network "private_network", ip: "192.168.33.#{10+machine_id}"
+ 
+        # Only execute once the Ansible provisioner,
+        # when all the machines are up and ready.
+        if machine_id == N
+          machine.vm.provision :ansible do |ansible|
+            # Disable default limit to connect to all the machines
+            ansible.limit = "all"
+            ansible.playbook = "provisioning/back/playbook.yml"
+            ansible.inventory_path == "provisioning/hosts"
+            ansible.sudo = true
+          end
+        end
+      end
     end
-  end
+
+
   # Enable provisioning with a shell script. Additional provisioners such as
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
