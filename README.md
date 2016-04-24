@@ -10,6 +10,7 @@ you will need to have done the following:
 
 1. Download and Install [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
 2. Download and Install [Vagrant](https://www.vagrantup.com/downloads.html)
+2.1. Install the vagrant plugin Vai `vagrant plugin install vai`
 3. Install [Ansible](http://ansibleworks.com/) ([guide for installing Ansible](http://docs.ansible.com/intro_installation.html))
 4. Open a shell prompt (Terminal app on a Mac) and cd into the folder containing the `Vagrantfile`
 5. Run the following command to install the necessary Ansible roles for this profile:

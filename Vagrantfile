@@ -51,7 +51,7 @@ Vagrant.configure(2) do |config|
   config.vm.define :front do |front|
     front.vm.hostname = "front"
     front.vm.network "forwarded_port", guest: 8080, host: 8088
-    front.vm.network "forwarded_port", guest: 22, host: 2201
+    front.vm.network "forwarded_port", guest: 22, host: 2201, id: 'ssh'
     front.vm.network "private_network", ip: "192.168.33.254"
     front.vm.provision "ansible" do |ansible| 
       ansible.playbook = "provisioning/front/playbook.yml"
@@ -61,10 +61,20 @@ Vagrant.configure(2) do |config|
   end
 
     N = 2
+
+    VAGRANT_VM_PROVIDER = "virtualbox"
+    ANSIBLE_RAW_SSH_ARGS = []
+
+    # Hack to fix ansible static invertory issues
+    # https://github.com/mitchellh/vagrant/pull/5765#issuecomment-120247738
+    (1..N-1).each do |machine_id|
+      ANSIBLE_RAW_SSH_ARGS << "-o IdentityFile=#{ENV["VAGRANT_DOTFILE_PATH"]}/machines/back#{machine_id}/#{VAGRANT_VM_PROVIDER}/private_key"
+    end
+
     (1..N).each do |machine_id|
       config.vm.define "back#{machine_id}" do |machine|
         machine.vm.hostname = "back#{machine_id}"
-        machine.vm.network "forwarded_port", guest: 22, host: 2201+machine_id
+        machine.vm.network "forwarded_port", guest: 22, host: 2201+machine_id, id: 'ssh'
         machine.vm.network "forwarded_port", guest: 8484, host: 8080+machine_id
         machine.vm.network "private_network", ip: "192.168.33.#{10+machine_id}"
  
@@ -77,6 +87,10 @@ Vagrant.configure(2) do |config|
             ansible.playbook = "provisioning/back/playbook.yml"
             ansible.inventory_path == "provisioning/hosts"
             ansible.sudo = true
+            ansible.raw_ssh_args = ANSIBLE_RAW_SSH_ARGS
+            ansible.groups = {
+             "backend" => (1..N).map { |x|  "back#{x} ansible_ssh_host=127.0.0.1 ansible_ssh_port=#{2201 + x}" },
+             }
           end
         end
       end

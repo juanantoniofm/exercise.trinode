@@ -1,7 +1,7 @@
 
 ---
 
-- hosts: back1
+- hosts: backend
 
   tasks:
       - apt_repository: repo='ppa:ubuntu-lxc/lxd-stable'
@@ -12,6 +12,3 @@
           dest=/var/www/goapp
           version=release-0.3
       - shell: cd /var/www/goapp; bash install.sh; bash run.sh
-
-      - shell: echo "here goes the code to run the go app"
-      - shell: echo "this is not wat ur looking 4" > /var/www/goapp/index.html

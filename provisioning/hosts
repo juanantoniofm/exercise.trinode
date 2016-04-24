@@ -1,4 +1,5 @@
 front ansible_ssh_host=127.0.0.1 ansible_ssh_port=2201
+
+[backend]
 back1 ansible_ssh_host=127.0.0.1 ansible_ssh_port=2202
 back2 ansible_ssh_host=127.0.0.1 ansible_ssh_port=2203
-
