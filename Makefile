@@ -10,4 +10,4 @@ run-deploy:
 	vagrant up; vagrant provision; curl http://localhost:8088
 
 syntax:
-	ansible-playbook --syntax-check --list-tasks provisioning/front/playbook.yml -i provisioning/hosts
+	ansible-playbook --syntax-check --list-tasks provisioning/front/playbook.yml -i provisioning/hosts; ansible-playbook --syntax-check --list-tasks provisioning/back/playbook.yml -i provisioning/hosts

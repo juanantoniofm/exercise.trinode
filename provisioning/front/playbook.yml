@@ -1,20 +1,23 @@
-- hosts frontline
 
-  pre_tasks:
-    - name: Update apt cache if needed.
-      apt: update_cache=yes cache_valid_time=3600
-      become: yes
+---
+
+- hosts: front
+
+#  pre_tasks:
+#  - name: Update apt cache if needed.
+#    apt: update_cache=yes cache_valid_time=3600
+#    become: yes
 
   roles:
-    - role: nginx
-      nginx_http_params:
-        sendfile: "on"
-        access_log: "/var/log/nginx/access.log"
-      nginx_sites:
-       - server:
-          file_name: foo
-          listen: 8080
-          server_name: localhost
-          root: "/tmp/site1"
-          location1: {name: /, try_files: "$uri $uri/ /index.html"}
-          location2: {name: /images/, try_files: "$uri $uri/ /index.html"}
+  - role: nginx
+    nginx_http_params:
+      sendfile: "on"
+      access_log: "/var/log/nginx/access.log"
+    nginx_sites:
+     - server:
+        file_name: goapp
+        listen: 8080
+        server_name: localhost
+        root: "/var/www/goapp"
+        location1: {name: /, try_files: "$uri $uri/ /index.html"}
+        location2: {name: /images/, try_files: "$uri $uri/ /index.html"}

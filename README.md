@@ -1,5 +1,8 @@
 # a 3 node web platform.
+
 1 gateway + 2 app nodes
+
+As example, we run the sample go application at [this repository]( https://github.com/juanantoniofm/goapi.git).
 
 # Prepping the environment
 
@@ -22,3 +25,9 @@ Alternatively you can use virtualenv:
         pip install -r requirements.python.txt
 
 and you will have the same python versions and ansible environment used to develop this repo
+
+# Running it
+
+        vagrant up
+
+sit and wait.
