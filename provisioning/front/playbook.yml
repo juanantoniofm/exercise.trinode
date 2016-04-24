@@ -9,15 +9,17 @@
 #    become: yes
 
   roles:
-  - role: nginx
+  - role: ansible.nginx_role
     nginx_http_params:
       sendfile: "on"
       access_log: "/var/log/nginx/access.log"
+      upstream:  "goapp {
+          server 192.168.33.11:8484;
+          server 192.168.33.12:8484; }"
     nginx_sites:
      - server:
         file_name: goapp
         listen: 8080
         server_name: localhost
         root: "/var/www/goapp"
-        location1: {name: /, try_files: "$uri $uri/ /index.html"}
-        location2: {name: /images/, try_files: "$uri $uri/ /index.html"}
+        location1: {name: /, proxy_pass: "http://goapp"}
