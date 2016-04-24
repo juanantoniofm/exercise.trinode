@@ -4,14 +4,14 @@
 - hosts: back1
 
   tasks:
-      - apt: name=git state=present
-      - apt_repository: repo='ppa:nginx/stable'
+      - apt_repository: repo='ppa:ubuntu-lxc/lxd-stable'
       - apt: update_cache=yes cache_valid_time=3600
+      - apt: name=git state=present
       - apt: name=golang state=present
       - git: repo=git://github.com/juanantoniofm/goapi.git
           dest=/var/www/goapp
-          version=release-0.2
-      - shell: cd /var/www/goapp; nohup go run hiworld.go &
+          version=release-0.3
+      - shell: cd /var/www/goapp; bash install.sh; bash run.sh
 
       - shell: echo "here goes the code to run the go app"
       - shell: echo "this is not wat ur looking 4" > /var/www/goapp/index.html

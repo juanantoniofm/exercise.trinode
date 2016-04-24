@@ -49,7 +49,7 @@ Vagrant.configure(2) do |config|
 
   # Set the name of the VM. See: http://stackoverflow.com/a/17864388/100134
   config.vm.define :front do |front|
-    #front.name = "front"
+    front.vm.hostname = "front"
     front.vm.network "forwarded_port", guest: 8080, host: 8088
     front.vm.network "forwarded_port", guest: 22, host: 2201
     front.vm.network "private_network", ip: "192.168.33.254"
@@ -61,7 +61,7 @@ Vagrant.configure(2) do |config|
   end
 
   config.vm.define :back1 do |back1|
-    #back1.name = "back01"
+    back1.vm.hostname = "back1"
     back1.vm.network "forwarded_port", guest: 8484, host: 8081
     back1.vm.network "forwarded_port", guest: 22, host: 2202
     back1.vm.network "private_network", ip: "192.168.33.11"
